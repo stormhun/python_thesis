@@ -1,6 +1,7 @@
 from Site import Site, Sighting
 import numpy as np 
 import pandas as pd
+import pickle
 df = pd.read_csv("squirel.csv")
 sites = []
 site_names =df["Site"].unique()
@@ -24,12 +25,10 @@ for counter, list_of_rows in enumerate(site_indices):
                 our_site = sites[counter]
                 new_sighting = Sighting(animal, f'Day_{x}', our_site )
                 our_site.add_sighting(new_sighting)
-for s in sites:
-    print(s)
-    for si in s.sightings:
-        print(si)
     #utm_east_value = df.loc[site[0], 'UTMEast']
     #print( site_names[i], site[0], utm_north_value, utm_east_value)
     #newsite = Site(site_names[i], utm_north_value, utm_east_value)
     #sites.append(newsite)
+with open("tst.pickle" , "wb") as f:
+    pickle.dump(sites, f )
 #print(animal)
