@@ -23,14 +23,24 @@ class Site:
 
     def get_longitude(self):
         return self.long
-
+    def get_sightings_by_animal(self):
+        animal_dict = {}
+        for a in self.sightings:
+            if(a.name not in animal_dict.keys()):
+                print(animal_dict.keys())
+                animal_dict[a.name] = []
+            animal_dict[a.name].append(a)
+        return animal_dict
     def __str__(self):
         return f"Site: {self.name}, Latitude: {self.lat}, Longitude: {self.long}, Sightings: {len(self.sightings)}"
     
 class Animal:
     def __init__(self, name):
         self.name = name
-        tmp_path, attributes = svg2paths('svgs/squirrel-cute.svg')
+        if("squirrel" in name):
+            tmp_path, attributes = svg2paths('svgs/squirrel-cute.svg')
+        else:
+            tmp_path, attributes = svg2paths('svgs/coyote-cute.svg')
         tmp_marker = parse_path(attributes[0]['d'])
 
         # Apply transformations
@@ -42,6 +52,12 @@ class Animal:
         return self.animal
     def get_animal(self):
         return self.name
+    def __hash__(self) -> int:
+        return hash(self.name)
+    def __eq__(self, other) -> bool:
+        if(self.name == other.name):
+            return True
+        return False
 class Sighting(Animal):
     def __init__(self, date, animal, site):
         super().__init__(animal)
@@ -57,5 +73,6 @@ class Sighting(Animal):
 
     def __str__(self):
         return f"Date: {self.date}, Animal: {self.name}, Location: {self.site.name}"
-
+    def __eq__(self, other) -> bool:
+        return super().__eq__(other)
 
