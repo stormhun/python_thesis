@@ -3,16 +3,17 @@ import matplotlib.pyplot as plt
 from Site import Site, Sighting, Animal
 sites = []
 with open("tst.pickle" , "rb") as f:
-    sites = pickle.load(f)
-fig, ax = plt.subplots()
+    siteL = pickle.load(f)
+sites = siteL.sites
+#siteL.plot_animal("Squirrel" , True )
+#print(siteL.get_all_animals())
+siteL.plot_all_sites()
+"""
 for i,s in enumerate(sites):
     if(len(s) > 0):
-        anim_sightings = s.get_sightings_by_animal()
-        for an in anim_sightings:
-            print(s, anim_sightings[an])
-            ax.plot(i * 30, len(anim_sightings[an]), 'o', marker = anim_sightings[an][0].marker, markersize = 15)
-           
-an = Animal("squirrel")
-ax.set_xticks([i * 30 for i,s in enumerate(sites)])
-ax.set_xticklabels([s.name for s in sites], rotation='vertical')
-plt.show()
+        fig, ax = plt.subplots()
+        s.plot_site(ax) 
+        plt.show()
+        for x in s.sightings:
+            print(x)
+"""
