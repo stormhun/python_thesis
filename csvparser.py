@@ -38,7 +38,7 @@ def create_sites_from_csv(filename, start_time = "1/1/2022"):
         #newsite = Site(site_names[i], utm_north_value, utm_east_value)
         #sites.append(newsite)
     return sites
-sites = create_sites_from_csv("OccupancyReport.csv")
+sites = create_sites_from_csv("PB3_spsu.csv")
 sites = SiteList(sites)
 with open("tst.pickle" , "wb") as f:
     pickle.dump(sites, f )

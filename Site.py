@@ -42,11 +42,13 @@ class Site:
         for i, an in enumerate(anim_sightings):
             #bar graph
             for x in range(1,len(anim_sightings[an]) + 1):
-                ax.plot(i , x, 'o', marker = anim_sightings[an][0].marker, markersize = 15, color = colors[i])
-        ax.set_xticks([i - 0.1 for i,s in enumerate(anim_sightings)], [s for s in anim_sightings] , rotation=80)
-        ax.set_ylabel("Number of Sightings")
-        ax.set_xlabel("Animal")
-        ax.set_title(f"Sightings at {self.name}")
+                ax.plot(i , x, 'o', markersize = 5, color = colors[i])
+                #ax.plot(i , x, 'o', marker = anim_sightings[an][0].marker, markersize = 15, color = colors[i])
+        #plt.subplots_adjust(bottom=0.1)
+        ax.set_xticks([i - 0.1 for i,s in enumerate(anim_sightings)], [s[:30] for s in anim_sightings] , rotation=80)
+        ax.set_ylabel("Total # of Days Animal Was Detected")
+        ax.set_xlabel("Animal Detected")
+        ax.set_title(f"Animals Detected April and July 2022 at {self.name}")
     def plot_animal(self, ax, animal, x_index = 0, color = 'blue', fuzz = False):
         anim_sightings = self.get_sightings_by_animal()
         if(fuzz):
@@ -145,8 +147,11 @@ class SiteList:
         fig, ax = plt.subplots()
         site = [s for s in self.sites if s.name == site][0]
         site.plot_site(ax)
-        plt.subplots_adjust(bottom=0.35)
-        plt.show()
+        #plt.subplots_adjust(bottom=0.35)
+        plt.tight_layout()
+        plt.savefig(f"{site.name}.jpg")
+        plt.close()
+        #plt.show()
     def get_all_animals(self):
         animals = set()
         for s in self.sites:
