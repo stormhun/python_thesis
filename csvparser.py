@@ -1,11 +1,12 @@
 from Site import Site, Sighting, SiteList
+import argparse
 import numpy as np 
 import pandas as pd
 import pickle
 import random
 import time 
 def create_sites_from_csv(filename, start_time = "1/1/2022"):
-    df = pd.read_csv(filename)
+    df = pd.read_csv(filename, skiprows=3)
     sites = []
     site_names =df["Site"].unique()
     site_indices = df.groupby('Site').apply(lambda group: group.index.tolist())
@@ -33,13 +34,38 @@ def create_sites_from_csv(filename, start_time = "1/1/2022"):
                     sight_date = time.localtime(sight_date)
                     new_sighting = Sighting(animal= animal, date= sight_date, site= our_site )
                     our_site.add_sighting(new_sighting)
-        #utm_east_value = df.loc[site[0], 'UTMEast']
-        #print( site_names[i], site[0], utm_north_value, utm_east_value)
-        #newsite = Site(site_names[i], utm_north_value, utm_east_value)
-        #sites.append(newsite)
+        
     return sites
-sites = create_sites_from_csv("PB3_spsu.csv")
-sites = SiteList(sites)
-with open("tst.pickle" , "wb") as f:
-    pickle.dump(sites, f )
-#print(animal)
+
+
+def main():
+    # Create an ArgumentParser object
+    parser = argparse.ArgumentParser(description="Parse a file name and an optional start date")
+
+    # Add argument for the file name
+    parser.add_argument("file_name", help="Name of the file to be processed")
+
+    # Add an optional argument for the start date
+    parser.add_argument("-d", "--start_date", help="Optional start date in mm/dd/yy format")
+
+    # Parse the command-line arguments
+    args = parser.parse_args()
+
+    # Access the file name and start date
+    file_name = args.file_name
+    start_date = args.start_date
+
+    return file_name,start_date
+
+
+if __name__ == "__main__":
+    fname, startdate = main()
+    if(startdate != None):
+        sites = create_sites_from_csv(fname, startdate)
+    else:
+        sites = create_sites_from_csv(fname)
+
+    sites = SiteList(sites)
+    with open("tst.pickle" , "wb") as f:
+        pickle.dump(sites, f )
+    
