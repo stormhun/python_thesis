@@ -45,5 +45,10 @@ You can then run the **loadindemo.py** file to generate plots for each site
 python loadindemo.py
 ```
 
-There are plotting options but they are not quite as polished as the `plot_all_sites` method
+## Result
+
+![Sample Plot for Powell Butte ](https://github.com/stormhun/python_thesis/blob/main/Powell%20Butte%201.jpg)
+
+
+There are other plotting options but they are not quite as polished as the `plot_all_sites` method
 
